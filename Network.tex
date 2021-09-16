@@ -1,0 +1,219 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\def\Pr{\mathop{\rm Pr}}
+%\usepackage[landscape,margin=1cm]{geometry}
+\usepackage[english]{babel}
+\usepackage{tikz}
+\usetikzlibrary{arrows,snakes,backgrounds,shapes.geometric}
+\title{Probability and Statistical Inference}
+\author{John S Butler}
+%\date{July 2019}
+\input{cheatsheet-template.tex}
+
+
+%--------------------------------------------------------------------------------
+\begin{document}
+
+%\maketitle
+\thispagestyle{empty}
+\scriptsize
+%\tableofcontents
+
+
+%\section{Data Type}
+\section*{Network - Algorithms  (MATH1812)\footnote{\href{https://sites.google.com/dit.ie/math1812/home}{Course Website: https://sites.google.com/dit.ie/math1812/home}}}
+%$\subsection*{Cheat Sheet}
+\subsubsection*{\href{johnsbutler.netlify.com}{John S Butler} (TU Dublin) }
+
+%%%% EXAMPLE Quick Find
+
+%%% Pesudocode
+\section*{Quick Find}
+\begin{textbox}{Pseudocode}
+\begin{subbox}{subbox}{Quick Find}
+\begin{codebox}{r}{Python Pseudocode}
+
+def Union(p,q,ID):
+	pID=ID[p]
+	qID=ID[q]
+
+	if(pID==qID)
+		return Connected
+
+	 for i in range(0,10): 
+		if ID[i]==pID:
+			ID[i]=qID
+	count=count-1	
+    return ID
+\end{codebox}
+\end{subbox}
+\end{textbox}
+%%% FLOW CHART
+
+\begin{textbox}{Flowchart }
+\begin{subbox}{subbox}{Quick Find - Connecting}
+\begin{center}
+    
+\begin{tikzpicture}[auto]
+\tikzstyle{decision} = [diamond, draw=blue, thick, fill=blue!20,
+text width=4.5em, text badly centered, inner sep=1pt]
+
+\tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{block_op} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, thick,->];
+\tikzstyle{cloud} = [draw=red, thick, ellipse,fill=red!20, minimum height=2em];
+\matrix [column sep=5mm,row sep=7mm]
+{
+% row 1
+ \node [block] (init) {p, q, \\ID, count}; & \\
+% row 2
+\node [block_op] (identify) {	pID=ID[p]\\
+	qID=ID[q]\\ i=0
+}; & ;\\
+\node [decision] (connect) {pID==qID}; & \\
+% row 4
+
+\node [decision] (connect2) {ID[i]==pid}; & \node [block_op] (identify3) {
+ID[i]=qID};\\
+
+\node [block_op] (identify2) {i=i+1}; & ;\\
+\node [decision] (decide) {$i<10$}; & \\
+\node [block_op] (identify4) {count=count-1}; & \\
+% row 5
+\node [cloud] (stop) {ID, count}; & \\
+};
+\tikzstyle{every path}=[line]
+\path (init) -- (identify);
+\path (identify) -- (connect);
+\path (connect) -- node [midway]{no}(connect2);
+\path (connect2) -- node [midway]{no}(identify2);
+\path (connect2) -- node [midway]{yes}(identify3);
+\path (identify3) edge [bend left]  (identify2);
+\path (connect) edge [bend right] node[left] {yes} (stop);
+\path (identify2) -- (decide);
+\path (decide)  edge [bend right] node[near start, right] {yes}  (connect2);
+\path (decide) -- node [midway] {no} (identify4);
+\path (identify4) -- (stop);
+\end{tikzpicture}
+
+\end{center}
+\end{subbox}
+
+\end{textbox}
+
+%%% Pesudocode
+\section*{Quick Union}
+\begin{textbox}{Pseudocode}
+\begin{subbox}{subbox}{Quick Union}
+\begin{codebox}{r}{Python Pseudocode Find Root}
+
+def root(p, q, ID):
+    while (p!=ID[p]):
+	    p=ID[p]
+
+    return p 
+
+
+\end{codebox}
+
+
+\begin{codebox}{r}{Python Pseudocode Connect}
+
+def Union(p,q,ID,count):
+	root_pID=root(p,ID)
+	root_qID=root(q,ID)
+
+	if(root_pID==root_qID):
+		ID=ID
+	else
+    	ID[root_pID]=root_qID
+    	count=count-1
+	return ID
+
+
+\end{codebox}
+\end{subbox}
+\end{textbox}
+%%% FLOW CHART
+
+\begin{textbox}{Flowchart Quick Union }
+\begin{subbox}{subbox}{Flow Chart Find Root}
+\begin{center}
+    
+\begin{tikzpicture}[auto]
+\tikzstyle{decision} = [diamond, draw=blue, thick, fill=blue!20,
+text width=4.5em, text badly centered, inner sep=1pt]
+
+\tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{block_op} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, thick,->];
+\tikzstyle{cloud} = [draw=red, thick, ellipse,fill=red!20, minimum height=2em];
+\matrix [column sep=5mm,row sep=7mm]
+{
+% row 1
+\node [cloud] (start) {root};  &;\\
+\node [block] (identify) {p, ID
+}; & ;\\
+\node [decision] (connect) {p!=ID[p]}; & \\
+
+\node [block_op] (identify2) {	p=ID[p]
+}; & \node [cloud] (stop) {Return p};\\
+};
+\tikzstyle{every path}=[line]
+\path (start) -- (identify);
+\path (identify) -- (connect);
+\path (connect) -- node [midway]{yes}(identify2);
+\path (connect)edge[bend left] node[near start, right]{no}(stop);
+\path (identify2)edge[bend left] (connect);
+\end{tikzpicture}
+
+\end{center}
+\end{subbox}
+\begin{subbox}{subbox}{Flow Chart Connect Nodes}
+\begin{center}
+    
+\begin{tikzpicture}[auto]
+\tikzstyle{decision} = [diamond, draw=blue, thick, fill=blue!20,
+text width=4.5em, text badly centered, inner sep=1pt]
+
+\tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{block_op} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, thick,->];
+\tikzstyle{cloud} = [draw=red, thick, ellipse,fill=red!20, minimum height=2em];
+\matrix [column sep=5mm,row sep=7mm]
+{
+\node [block] (identify) {p, q,\\ ID, count
+}; & ;\\
+% row 1
+\node [block_op] (init) {	rootpID=root(p)\\
+rootqID=root(q)
+}; & ;\\
+\node [decision] (connect) {pID==qID}; & \\
+% row 4
+\node [block_op] (stopN) {ID[rootpID]=rootqID\\ count=count-1 };&\node [cloud] (stopY) {Return ID};  \\
+ \node [cloud] (stop) {Return ID };&;  \\
+% row 4
+};
+\tikzstyle{every path}=[line]
+\path (identify) -- (init);
+\path (init) -- (connect);
+\path (connect)-- node [midway]{no} (stopN);
+\path (connect) edge[bend left] node[near start, right]{yes} (stopY);
+\path (stopN) -- (stop);
+
+\end{tikzpicture}
+\end{center}
+\end{subbox}
+
+\end{textbox}
+
+
+
+\end{document}

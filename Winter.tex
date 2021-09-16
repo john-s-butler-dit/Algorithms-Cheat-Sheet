@@ -1,0 +1,208 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\def\Pr{\mathop{\rm Pr}}
+%\usepackage[landscape,margin=1cm]{geometry}
+\usepackage[english]{babel}
+\usepackage{tikz}
+\usetikzlibrary{arrows,snakes,backgrounds,shapes.geometric}
+
+%\date{July 2019}
+\input{cheatsheet-template.tex}
+
+
+%--------------------------------------------------------------------------------
+\begin{document}
+
+%\maketitle
+%\thispagestyle{empty}
+\scriptsize
+%\tableofcontents
+
+
+\begin{textbox}{Flowchart }
+\begin{subbox}{subbox}{ Double Loop}
+\begin{center}
+    
+\begin{tikzpicture}[auto]
+\tikzstyle{decision} = [diamond, draw=blue, thick, fill=blue!20,
+text width=4.5em, text badly centered, inner sep=1pt]
+
+\tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{block_op} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, thick,->];
+\tikzstyle{cloud} = [draw=red, thick, ellipse,fill=red!20, minimum height=2em];
+\matrix [column sep=5mm,row sep=7mm]
+{
+% row 1
+ \node [block] (init) { Sum=3\\j=-2}; & \\
+% row 2
+\node [block_op] (identify) {i=1}; & ;\\
+% row 4
+\node [block_op] (identify2) {Sum=Sum+i*j\\
+i=i+1}; & ;\\
+\node [decision] (decide) {$i<5$}; & \\
+% row 5
+\node [block_op] (identify3) {
+j=j+1}; & ;\\
+\node [decision] (decide2) {$j<5$}; & \\
+\node [block] (stop) {return Sum}; & \\
+};
+\tikzstyle{every path}=[line]
+\path (init) -- (identify);
+\path (identify) -- (identify2);
+%\path (identify) -- (decide);
+%\path (decide)  edge [bend right] node[near start,right] {yes}  (identify);
+%\path (decide) -- node [midway] {no} (identify2);
+\path (identify2) -- (decide);
+\path (decide) -- (identify3);
+
+\path (identify3) -- (decide2);
+%\path (decide2) -- (stop);
+
+\path (decide2)  edge [bend right] node[right] {yes}  (identify);
+
+\path (decide)  edge [bend left] node[near start,left] {yes}  (identify2);
+
+\path (decide2) -- node [midway] {no} (stop);
+
+\end{tikzpicture}
+
+\end{center}
+\end{subbox}
+
+\end{textbox}
+%%%%%% Q1b
+\newpage
+\begin{textbox}{Flowchart }
+\begin{subbox}{subbox}{Arithmetic Series}
+\begin{center}
+    
+\begin{tikzpicture}[auto]
+\tikzstyle{decision} = [diamond, draw=blue, thick, fill=blue!20,
+text width=4.5em, text badly centered, inner sep=1pt]
+
+\tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{block_op} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, thick,->];
+\tikzstyle{cloud} = [draw=red, thick, ellipse,fill=red!20, minimum height=2em];
+\matrix [column sep=5mm,row sep=7mm]
+{
+% row 1
+ \node [block] (init) {i=1, \ j=2\\ Sum=7\\}; & \\
+% row 2
+\node [block_op] (identify) {
+Sum=Sum-3j\\
+j=j+1}; & ;\\
+% row 4
+\node [decision] (decide) {$j<5$}; & \\
+% row 5
+\node [block_op] (identify_i) {
+Sum=Sum+7i\\
+i=i+1}; & ;\\
+\node [decision] (decide_i) {$i<8$}; & \\
+% row 5
+\node [block] (stop) {return Sum}; & \\
+};
+\tikzstyle{every path}=[line]
+\path (init) -- (identify);
+\path (identify) -- (decide);
+\path (decide)  edge [bend right] node[near start,right] {yes}  (identify);
+\path (decide) -- node [midway] {no} (identify_i);
+\path (identify_i) -- (decide_i);
+\path (decide_i)  edge [bend right] node[near start,right] {yes}  (identify_i);
+\path (decide_i) -- node [midway] {no} (stop);
+\end{tikzpicture}
+
+\end{center}
+\end{subbox}
+\end{textbox}
+
+
+
+%%%%%% Q1c
+\newpage
+\begin{textbox}{Flowchart }
+\begin{subbox}{subbox}{Arithmetic Series}
+\begin{center}
+    
+\begin{tikzpicture}[auto]
+\tikzstyle{decision} = [diamond, draw=blue, thick, fill=blue!20,
+text width=4.5em, text badly centered, inner sep=1pt]
+
+\tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{block_op} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=8em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, thick,->];
+\tikzstyle{cloud} = [draw=red, thick, ellipse,fill=red!20, minimum height=2em];
+\matrix [column sep=5mm,row sep=7mm]
+{
+% row 1
+ \node [block] (init) {n=0 \\ Sum=0}; & \\
+% row 2
+\node [block_op] (identify) {T[n]=-10+3*n\\
+Sum=Sum+T[n]\\
+n=n+1}; & ;\\
+% row 4
+\node [decision] (decide) {$n<50$}; & \\
+% row 5
+\node [block] (stop) {return Sum, T}; & \\
+};
+\tikzstyle{every path}=[line]
+\path (init) -- (identify);
+\path (identify) -- (decide);
+\path (decide)  edge [bend right] node[near start,right] {yes}  (identify);
+\path (decide) -- node [midway] {no} (stop);
+
+\end{tikzpicture}
+
+\end{center}
+\end{subbox}
+\end{textbox}
+
+%%%%%% Q1d
+\newpage
+\begin{textbox}{Flowchart }
+\begin{subbox}{subbox}{Approx $e^{-2x}$}
+\begin{center}
+    
+\begin{tikzpicture}[auto]
+\tikzstyle{decision} = [diamond, draw=blue, thick, fill=blue!20,
+text width=4.5em, text badly centered, inner sep=1pt]
+
+\tikzstyle{block} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=14em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{block_op} = [rectangle, draw=blue, thick, fill=blue!20,
+text width=14em, text centered, minimum height=4em]
+\tikzstyle{line} = [draw, thick,->];
+\tikzstyle{cloud} = [draw=red, thick, ellipse,fill=red!20, minimum height=2em];
+\matrix [column sep=5mm,row sep=7mm]
+{
+% row 1
+ \node [block] (init) {x\\n=0 \\ Sum=0}; & \\
+% row 2
+\node [block_op] (identify) {
+Sum=Sum+$\frac{(-2x)^n}{n!}$\\
+n=n+1}; & ;\\
+% row 4
+\node [decision] (decide) {$n<100$}; & \\
+% row 5
+\node [block] (stop) {return Sum}; & \\
+};
+\tikzstyle{every path}=[line]
+\path (init) -- (identify);
+\path (identify) -- (decide);
+\path (decide)  edge [bend right] node[near start,right] {yes}  (identify);
+\path (decide) -- node [midway] {no} (stop);
+
+\end{tikzpicture}
+
+\end{center}
+\end{subbox}
+\end{textbox}
+\end{document}
